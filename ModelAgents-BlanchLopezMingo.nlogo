@@ -10,12 +10,14 @@ globals [
   total-minutes-waited
   mean-waiting-time
   ;ticks-per-minute (slider)
+  distance-per-tick
+  train-frequency-ticks
 ]
 
 trains-own [ ; TRAIN
   going-to-station ; Station which the train is going to
   num-passengers ; Current number of passengers
-  minutes-between-stations ; Minutes needed to travel to the next station (in total)
+  ; minutes-between-stations ; Minutes needed to travel to the next station (in total)
   distance-travelled ; Distance travelled since last station
 ]
 
@@ -35,22 +37,16 @@ to setup
   set passengers-travelled 0
   set total-minutes-waited 0
   set mean-waiting-time 0
+  set distance-per-tick 1
+  setup-frequency
   draw-track
   draw-stations
   reset-ticks
+end
 
-  create-trains 1
-  [ set color one-of base-colors
-    set size 2
-    set label-color white
-    set minutes-between-stations calcRand 2 8
-    set distance-travelled station-length
-    setxy 4 0.5
-    set heading 0
-    set going-to-station 0
-    go-train
-  ]
-  update-passengers-labels
+to setup-frequency
+  let exponential ceiling (random-exponential train-frequency-exponential)
+  set train-frequency-ticks ticks-per-minute * exponential
 end
 
 to draw-track
@@ -106,11 +102,33 @@ to go
 end
 
 to step
+  setup-frequency
+  ifelse ticks = 0 [
+    new-train
+  ][
+    if ticks mod train-frequency-ticks = 0 [
+      new-train
+    ]
+  ]
   ask trains [ go-train ]
   ask stations [ go-station ]
   update-passengers-labels
   calculate-mean-waiting-time
   tick
+end
+
+to new-train
+  create-trains 1
+  [ set color one-of base-colors
+    set size 2
+    set label-color white
+    ; set minutes-between-stations calcRand 2 8
+    set distance-travelled station-length
+    setxy 4 0.5
+    set heading 0
+    set going-to-station 0
+    go-train
+  ]
 end
 
 to go-station ; applied to a station
@@ -120,7 +138,6 @@ to go-station ; applied to a station
 end
 
 to go-train ; applied to a train
-  let distance-per-tick station-length / (minutes-between-stations * ticks-per-minute)
   ifelse distance-travelled + distance-per-tick < station-length [
     ; moves the train (if it is not in a station)
     set heading 90
@@ -132,7 +149,7 @@ to go-train ; applied to a train
       passengers-enter-the-train
       ; reset counters, update going-to-station and calculate minutes-between-stations
       set going-to-station (going-to-station + 1)
-      set minutes-between-stations calcRand 2 8
+      ; set minutes-between-stations calcRand 2 8
       set distance-travelled 0
     if (going-to-station = 5) [ die ]
   ]
@@ -359,9 +376,9 @@ SLIDER
 143
 ticks-per-minute
 ticks-per-minute
-0
+1
 50
-20.0
+9.0
 1
 1
 ticks/min
@@ -392,6 +409,21 @@ mean-waiting-time / ticks-per-minute
 17
 1
 11
+
+SLIDER
+415
+155
+657
+188
+train-frequency-exponential
+train-frequency-exponential
+1
+30
+1.0
+2
+1
+NIL
+HORIZONTAL
 
 @#$#@#$#@
 ## WHAT IS IT?
