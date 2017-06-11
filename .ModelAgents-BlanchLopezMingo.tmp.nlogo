@@ -159,14 +159,14 @@ to passengers-enter-the-train ; applied to a train
           set entering entering + p-num
           set seats-available seats-available - p-num
           set passengers-travelled passengers-travelled + entering
-          set total-minutes-waited total-minutes-waited + (entering * p-time)
+          set total-minutes-waited total-minutes-waited entering * p-time)
           set p-waiting-num remove-item 0 p-waiting-num
           set p-waiting-time remove-item 0 p-waiting-time
         ] [
           set entering entering + seats-available
           set p-num p-num - seats-available
           set passengers-travelled passengers-travelled + entering
-          set total-minutes-waited total-minutes-waited + (entering * p-time)
+          set total-minutes-waited total-minutes-waited (entering * p-time)
           set p-waiting-num replace-item 0 p-waiting-num p-num
           set seats-available 0
         ]
@@ -387,8 +387,8 @@ MONITOR
 110
 1025
 155
-Temps d'espera mitjà (min)
-mean-waiting-time / ticks-per-minute
+Temps d'espera mitjà
+mean-waiting-time
 17
 1
 11
