@@ -51,8 +51,8 @@ to setup
 end
 
 to setup-frequency
-  let exponential ceiling (random-exponential train-frequency-exponential)
-  set train-frequency-ticks ticks-per-minute * exponential
+  let exponential random-exponential train-frequency-exponential
+  set train-frequency-ticks ceiling (ticks-per-minute * exponential)
 end
 
 to draw-track
