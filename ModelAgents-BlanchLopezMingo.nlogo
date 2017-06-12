@@ -17,7 +17,7 @@ globals [
 trains-own [ ; TRAIN
   going-to-station ; Station which the train is going to
   num-passengers ; Current number of passengers
-  ; minutes-between-stations ; Minutes needed to travel to the next station (in total)
+  minutes-between-stations ; Minutes needed to travel to the next station (in total)
   distance-travelled ; Distance travelled since last station
 ]
 
@@ -37,7 +37,6 @@ to setup
   set passengers-travelled 0
   set total-minutes-waited 0
   set mean-waiting-time 0
-  set distance-per-tick 1
   setup-frequency
   draw-track
   draw-stations
@@ -122,7 +121,7 @@ to new-train
   [ set color one-of base-colors
     set size 2
     set label-color white
-    ; set minutes-between-stations calcRand 2 8
+    set minutes-between-stations calcRand 6 8
     set distance-travelled station-length
     setxy 4 0.5
     set heading 0
@@ -138,6 +137,7 @@ to go-station ; applied to a station
 end
 
 to go-train ; applied to a train
+  set distance-per-tick station-length / (minutes-between-stations * ticks-per-minute)
   ifelse distance-travelled + distance-per-tick < station-length [
     ; moves the train (if it is not in a station)
     set heading 90
@@ -170,7 +170,7 @@ to passengers-enter-the-train ; applied to a train
         let p-num item 0 p-waiting-num
         let p-time item 0 p-waiting-time
         print word "Seats available: " seats-available
-        print word "Num assengers: " p-num
+        print word "Num passengers: " p-num
         print word "Time waiting: " p-time
         ifelse p-num <= seats-available [
           set entering entering + p-num
@@ -419,7 +419,7 @@ train-frequency-exponential
 train-frequency-exponential
 1
 30
-1.0
+13.0
 2
 1
 NIL
