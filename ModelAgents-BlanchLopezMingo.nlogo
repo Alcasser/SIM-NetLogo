@@ -30,6 +30,8 @@ stations-own [ ; STATION
   p-waiting-num ; Number of people in each group of passengers waiting
   p-waiting-time ; Time (ticks) waiting in each group of passengers waiting
   ticks-from-last-train ; Ticks from last train departure
+  p-left-num
+  p-left-total-wait-time
 ]
 
 to setup
@@ -40,7 +42,7 @@ to setup
   set passengers-travelled 0
   set total-minutes-waited 0
   set mean-waiting-time 0
-  set ticks-per-minute 10
+  set ticks-per-minute 2
   set hour 8
   set minute 0
   set second 0
@@ -132,7 +134,7 @@ to new-train
   [ set color one-of base-colors
     set size 2
     set label-color white
-    set minutes-between-stations calcRand 6 8
+    set minutes-between-stations calcRand (mean-time-between-stations - 1) (mean-time-between-stations + 1)
     set distance-travelled station-length
     setxy 4 0.5
     set heading 0
@@ -160,7 +162,7 @@ to go-train ; applied to a train
       passengers-enter-the-train
       ; reset counters, update going-to-station and calculate minutes-between-stations
       set going-to-station (going-to-station + 1)
-      set minutes-between-stations calcRand 6 8
+      set minutes-between-stations calcRand (mean-time-between-stations - 1) (mean-time-between-stations + 1)
       set distance-travelled 0
     if (going-to-station = 5) [ die ]
   ]
@@ -186,8 +188,8 @@ to passengers-enter-the-train ; applied to a train
         ifelse p-num <= seats-available [
           set entering entering + p-num
           set seats-available seats-available - p-num
-          set passengers-travelled passengers-travelled + entering
-          set total-minutes-waited total-minutes-waited + (entering * p-time)
+          set p-left-num p-left-num + entering
+          set p-left-total-wait-time p-left-total-wait-time + (entering * p-time)
           set p-waiting-num remove-item 0 p-waiting-num
           set p-waiting-time remove-item 0 p-waiting-time
         ] [
@@ -226,6 +228,12 @@ to passengers-leave-the-train ; applied to a train
 end
 
 to calculate-mean-waiting-time
+  set total-minutes-waited 0
+  set passengers-travelled 0
+  ask stations [
+    set total-minutes-waited total-minutes-waited + p-left-total-wait-time
+    set passengers-travelled passengers-travelled + p-left-num
+  ]
   set mean-waiting-time total-minutes-waited / passengers-travelled
 end
 
@@ -265,6 +273,7 @@ to update-passengers-waiting ; applied to a station
     ; print word "Waiting num: " p-waiting-num
     ;print word "Waiting time: " p-waiting-time
     set passengers-waiting total
+    print (word "Station " station-num ": " passengers-waiting)
     set label passengers-waiting
   ]
 end
@@ -301,13 +310,13 @@ to update-waiting-times [ time ] ; applied to a station
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
-195
 10
-1023
-99
+11
+813
+97
 -1
 -1
-20.0
+19.4
 1
 10
 1
@@ -328,10 +337,10 @@ ticks
 30.0
 
 BUTTON
-195
-110
-260
-145
+10
+100
+75
+135
 NIL
 setup
 NIL
@@ -345,10 +354,10 @@ NIL
 1
 
 BUTTON
-345
-110
-408
-145
+160
+100
+223
+135
 NIL
 go
 T
@@ -362,10 +371,10 @@ NIL
 1
 
 BUTTON
-270
-110
-335
-145
+85
+100
+150
+135
 step
 step
 NIL
@@ -379,51 +388,51 @@ NIL
 1
 
 SLIDER
-630
-110
-840
-143
+445
+100
+655
+133
 max-capacity
 max-capacity
 0
 500
-277.0
+303.0
 1
 1
 passengers
 HORIZONTAL
 
 MONITOR
-845
-110
-1025
-155
-Temps d'espera mitjà (min)
+660
+100
+815
+145
+Mean wait time (min)
 mean-waiting-time / ticks-per-minute
 17
 1
 11
 
 SLIDER
-415
-110
-625
-143
+230
+100
+440
+133
 train-frequency-exponential
 train-frequency-exponential
 1
-30
-5.0
-2
+15
+3.8
+0.1
 1
 NIL
 HORIZONTAL
 
 MONITOR
-210
-175
-267
-220
+1035
+150
+1085
+195
 hour
 floor hour
 17
@@ -431,10 +440,10 @@ floor hour
 11
 
 MONITOR
-270
-175
-327
-220
+1087
+150
+1137
+195
 minute
 floor minute
 17
@@ -442,15 +451,228 @@ floor minute
 11
 
 MONITOR
-330
-175
-387
-220
+1140
+150
+1190
+195
 NIL
 second
 17
 1
 11
+
+SLIDER
+1035
+200
+1190
+233
+mean-time-between-stations
+mean-time-between-stations
+1
+10
+3.5
+0.5
+1
+NIL
+HORIZONTAL
+
+PLOT
+10
+150
+210
+285
+Pass. at BCN-Espanya
+NIL
+NIL
+0.0
+10.0
+0.0
+10.0
+true
+false
+"" ""
+PENS
+"passengers" 1.0 0 -2139308 true "" "ask stations with [ station-num = 0 ] [\n  let total 0\n  foreach p-waiting-num [ n -> set total total + n ]\n  plot total\n]"
+
+PLOT
+10
+290
+210
+425
+Wait time at BCN-Espanya
+NIL
+NIL
+0.0
+10.0
+0.0
+5.0
+true
+false
+"" ""
+PENS
+"default" 1.0 0 -14070903 true "" "ask stations with [ station-num = 0 ] [\n  if p-left-num > 0 [\n    plot (p-left-total-wait-time / p-left-num) / ticks-per-minute\n  ]\n]"
+
+PLOT
+215
+150
+415
+285
+Pass. at Magòria-La Campana
+NIL
+NIL
+0.0
+10.0
+0.0
+10.0
+true
+false
+"" ""
+PENS
+"default" 1.0 0 -2674135 true "" "ask stations with [ station-num = 1 ] [\n  let total 0\n  foreach p-waiting-num [ n -> set total total + n ]\n  plot total\n]"
+
+PLOT
+420
+150
+620
+285
+Pass. at Ildefons Cerdà
+NIL
+NIL
+0.0
+10.0
+0.0
+10.0
+true
+false
+"" ""
+PENS
+"default" 1.0 0 -2674135 true "" "ask stations with [ station-num = 2 ] [\n  let total 0\n  foreach p-waiting-num [ n -> set total total + n ]\n  plot total\n]"
+
+PLOT
+625
+150
+825
+285
+Pass. at Gornal
+NIL
+NIL
+0.0
+10.0
+0.0
+10.0
+true
+false
+"" ""
+PENS
+"default" 1.0 0 -2674135 true "" "ask stations with [ station-num = 3 ] [\n  let total 0\n  foreach p-waiting-num [ n -> set total total + n ]\n  plot total\n]"
+
+PLOT
+830
+150
+1030
+285
+Pass. at Sant Josep
+NIL
+NIL
+0.0
+10.0
+0.0
+10.0
+true
+false
+"" ""
+PENS
+"default" 1.0 0 -2674135 true "" "ask stations with [ station-num = 4 ] [\n  let total 0\n  foreach p-waiting-num [ n -> set total total + n ]\n  plot total\n]"
+
+PLOT
+215
+290
+415
+425
+Wait time at Mag.-La Camp.
+NIL
+NIL
+0.0
+10.0
+0.0
+10.0
+true
+false
+"" ""
+PENS
+"default" 1.0 0 -14070903 true "" "ask stations with [ station-num = 1 ] [\n  if p-left-num > 0 [\n    plot (p-left-total-wait-time / p-left-num) / ticks-per-minute\n  ]\n]"
+
+PLOT
+420
+290
+620
+425
+Wait time at Ildef. Cerdà
+NIL
+NIL
+0.0
+10.0
+0.0
+10.0
+true
+false
+"" ""
+PENS
+"default" 1.0 0 -14070903 true "" "ask stations with [ station-num = 2 ] [\n  if p-left-num > 0 [\n    plot (p-left-total-wait-time / p-left-num) / ticks-per-minute\n  ]\n]"
+
+PLOT
+625
+290
+825
+425
+Wait time at Gornal
+NIL
+NIL
+0.0
+10.0
+0.0
+10.0
+true
+false
+"" ""
+PENS
+"default" 1.0 0 -14070903 true "" "ask stations with [ station-num = 3 ] [\n  if p-left-num > 0 [\n    plot (p-left-total-wait-time / p-left-num) / ticks-per-minute\n  ]\n]"
+
+PLOT
+830
+290
+1030
+425
+Wait time at Sant Josep
+NIL
+NIL
+0.0
+10.0
+0.0
+10.0
+true
+false
+"" ""
+PENS
+"default" 1.0 0 -14070903 true "" "ask stations with [ station-num = 4 ] [\n  if p-left-num > 0 [\n    plot (p-left-total-wait-time / p-left-num) / ticks-per-minute\n  ]\n]"
+
+PLOT
+820
+10
+1190
+145
+Mean wait time (total)
+NIL
+NIL
+0.0
+10.0
+0.0
+10.0
+true
+false
+"" ""
+PENS
+"default" 1.0 0 -10141563 true "" "plot mean-waiting-time / ticks-per-minute"
 
 @#$#@#$#@
 ## WHAT IS IT?
