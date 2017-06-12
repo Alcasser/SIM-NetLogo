@@ -106,7 +106,7 @@ to step
   ifelse ticks = 0 [
     new-train
   ][
-    if ticks mod train-frequency-ticks = 0 [
+    if ticks mod train-frequency-ticks = 0 and not train-leaving-station-0 [
       new-train
     ]
   ]
@@ -120,7 +120,7 @@ end
 to new-train
   create-trains 1
   [ set color one-of base-colors
-    set size 2
+    set size 1.8
     set label-color white
     set minutes-between-stations calcRand 6 8
     set distance-travelled station-length
@@ -141,9 +141,11 @@ to go-train ; applied to a train
   set distance-per-tick station-length / (minutes-between-stations * ticks-per-minute)
   ifelse distance-travelled + distance-per-tick < station-length [
     ; moves the train (if it is not in a station)
-    set heading 90
-    fd distance-per-tick
-    set distance-travelled distance-travelled + distance-per-tick
+    if not crashing going-to-station distance-travelled [
+      set heading 90
+      fd distance-per-tick
+      set distance-travelled distance-travelled + distance-per-tick
+    ]
   ][
     ; train arrives and leaves the station
       passengers-leave-the-train
@@ -291,6 +293,29 @@ end
 to update-waiting-times [ time ] ; applied to a station
   set p-waiting-time map [ t -> t + time ] p-waiting-time
 end
+
+to-report train-leaving-station-0
+  let result false
+  ask trains [
+    if going-to-station = 1 and distance-travelled < 2 [
+      set result true
+    ]
+  ]
+  report result
+end
+
+to-report crashing [ gts dt ]
+  let result false
+  ask trains [
+    if going-to-station = gts and dt >= distance-travelled - 2 and dt < distance-travelled [
+      set result true
+    ]
+    if dt >= station-length - 1 and going-to-station = gts + 1 and distance-travelled <= 1 [
+      set result true
+    ]
+  ]
+  report result
+end
 @#$#@#$#@
 GRAPHICS-WINDOW
 195
@@ -405,7 +430,7 @@ train-frequency-exponential
 train-frequency-exponential
 1
 30
-5.0
+1.0
 2
 1
 NIL
