@@ -12,6 +12,9 @@ globals [
   ticks-per-minute
   distance-per-tick
   train-frequency-ticks
+  hour
+  minute
+  second
 ]
 
 trains-own [ ; TRAIN
@@ -38,6 +41,9 @@ to setup
   set total-minutes-waited 0
   set mean-waiting-time 0
   set ticks-per-minute 10
+  set hour 8
+  set minute 0
+  set second 0
   setup-frequency
   draw-track
   draw-stations
@@ -114,6 +120,10 @@ to step
   ask stations [ go-station ]
   update-passengers-labels
   calculate-mean-waiting-time
+
+  set hour 8 + (ticks / ticks-per-minute) / 60
+  set minute ticks / ticks-per-minute mod 60
+  set second (ticks mod ticks-per-minute) / ticks-per-minute * 60
   tick
 end
 
@@ -224,8 +234,6 @@ to update-passengers-waiting ; applied to a station
   if (station-num != 4) [
     let minutes-from-last-train ticks-from-last-train / ticks-per-minute
     let new-passengers 0
-    print word "Station: " station-num
-    print word "Minutes from last train: " minutes-from-last-train
     if minutes-from-last-train =  0.0 [
       set new-passengers calcRand 100 200
       set p-waiting-num lput new-passengers p-waiting-num
@@ -254,8 +262,8 @@ to update-passengers-waiting ; applied to a station
     ]
     let total 0
     foreach p-waiting-num [ n -> set total total + n ]
-    print word "Waiting num: " p-waiting-num
-    print word "Waiting time: " p-waiting-time
+    ; print word "Waiting num: " p-waiting-num
+    ;print word "Waiting time: " p-waiting-time
     set passengers-waiting total
     set label passengers-waiting
   ]
@@ -379,7 +387,7 @@ max-capacity
 max-capacity
 0
 500
-451.0
+277.0
 1
 1
 passengers
@@ -410,6 +418,39 @@ train-frequency-exponential
 1
 NIL
 HORIZONTAL
+
+MONITOR
+210
+175
+267
+220
+hour
+floor hour
+17
+1
+11
+
+MONITOR
+270
+175
+327
+220
+minute
+floor minute
+17
+1
+11
+
+MONITOR
+330
+175
+387
+220
+NIL
+second
+17
+1
+11
 
 @#$#@#$#@
 ## WHAT IS IT?
