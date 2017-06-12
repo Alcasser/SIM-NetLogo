@@ -167,7 +167,7 @@ to go-train ; applied to a train
       set minutes-between-stations calcRand (mean-time-between-stations - 1) (mean-time-between-stations + 1)
       set distance-travelled 0
   ]
-  if (going-to-station = 5 and distance-travelled > 4) [ die ]
+  if (going-to-station = 5 and distance-travelled >= 4) [ die ]
 end
 
 to passengers-enter-the-train ; applied to a train
@@ -418,7 +418,7 @@ max-capacity
 max-capacity
 0
 500
-303.0
+344.0
 1
 1
 passengers
@@ -444,7 +444,7 @@ train-frequency-exponential
 train-frequency-exponential
 1
 15
-3.8
+1.8
 0.1
 1
 NIL
@@ -492,7 +492,7 @@ mean-time-between-stations
 mean-time-between-stations
 1
 10
-3.5
+1.5
 0.5
 1
 NIL
