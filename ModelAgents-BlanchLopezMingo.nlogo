@@ -42,7 +42,7 @@ to setup
   set passengers-travelled 0
   set total-minutes-waited 0
   set mean-waiting-time 0
-  set ticks-per-minute 2
+  set ticks-per-minute 5
   set hour 8
   set minute 0
   set second 0
@@ -176,17 +176,10 @@ to passengers-enter-the-train ; applied to a train
   ask stations with [ station-num = going-to-station-aux ] [
     let seats-available max-capacity - num-passengers-aux
     if (seats-available > 0) [
-      print word "Station " station-num
-      print word "Num passengers: " num-passengers-aux
-      print word "Passengers queue (num): " p-waiting-num
-      print word "Passengers queue (time): " p-waiting-time
       let entering 0
       while [not empty? p-waiting-num and seats-available > 0] [
         let p-num item 0 p-waiting-num
         let p-time item 0 p-waiting-time
-        print word "Seats available: " seats-available
-        print word "Num passengers: " p-num
-        print word "Time waiting: " p-time
         ifelse p-num <= seats-available [
           set entering entering + p-num
           set seats-available seats-available - p-num
@@ -204,9 +197,6 @@ to passengers-enter-the-train ; applied to a train
         ]
       ]
       set num-passengers-aux num-passengers-aux + entering
-      print word "Passengers queue (num): " p-waiting-num
-      print word "Passengers queue (time): " p-waiting-time
-      print (word "STATION " station-num ": " entering " passengers enter the train")
     ]
     set ticks-from-last-train 0
     update-passengers-waiting
@@ -338,7 +328,7 @@ GRAPHICS-WINDOW
 97
 -1
 -1
-19.4
+17.8
 1
 10
 1
@@ -417,7 +407,7 @@ SLIDER
 max-capacity
 max-capacity
 0
-500
+1000
 400.0
 1
 1
@@ -695,6 +685,24 @@ false
 "" ""
 PENS
 "default" 1.0 0 -10141563 true "" "plot mean-waiting-time / ticks-per-minute"
+
+PLOT
+1035
+245
+1235
+395
+Maximum of passengers
+NIL
+NIL
+0.0
+10.0
+0.0
+10.0
+true
+false
+"" ""
+PENS
+"default" 1.0 0 -12087248 true "" "let maximum 0\nask trains [\n  if num-passengers > maximum [ set maximum num-passengers ]\n]\nplot maximum"
 
 @#$#@#$#@
 ## WHAT IS IT?
