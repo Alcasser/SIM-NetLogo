@@ -164,8 +164,8 @@ to go-train ; applied to a train
       set going-to-station (going-to-station + 1)
       set minutes-between-stations calcRand 6 8
       set distance-travelled 0
-    if (going-to-station = 5) [ die ]
   ]
+  if (going-to-station = 5 and distance-travelled > 4) [ die ]
 end
 
 to passengers-enter-the-train ; applied to a train
@@ -233,42 +233,40 @@ end
 
 ; updates the number and the label of the passengers waiting in a station
 to update-passengers-waiting ; applied to a station
-  if (station-num != 4) [
-    let minutes-from-last-train ticks-from-last-train / ticks-per-minute
-    let new-passengers 0
-    if minutes-from-last-train =  0.0 [
-      set new-passengers calcRand 100 200
-      set p-waiting-num lput new-passengers p-waiting-num
-      set p-waiting-time lput ticks-from-last-train p-waiting-time
-    ]
-    if minutes-from-last-train =  5.0 [
-      set new-passengers calcRand 150 300
-      set p-waiting-num but-last p-waiting-num
-      set p-waiting-time but-last p-waiting-time
-      set p-waiting-num lput new-passengers p-waiting-num
-      set p-waiting-time lput ticks-from-last-train p-waiting-time
-    ]
-    if minutes-from-last-train = 10.0 [
-      set new-passengers calcRand  50 300
-      set p-waiting-num but-last p-waiting-num
-      set p-waiting-time but-last p-waiting-time
-      set p-waiting-num lput new-passengers p-waiting-num
-      set p-waiting-time lput ticks-from-last-train p-waiting-time
-    ]
-    if minutes-from-last-train = 15.0 [
-      set new-passengers calcRand 200 400
-      set p-waiting-num but-last p-waiting-num
-      set p-waiting-time but-last p-waiting-time
-      set p-waiting-num lput new-passengers p-waiting-num
-      set p-waiting-time lput ticks-from-last-train p-waiting-time
-    ]
-    let total 0
-    foreach p-waiting-num [ n -> set total total + n ]
-    ; print word "Waiting num: " p-waiting-num
-    ;print word "Waiting time: " p-waiting-time
-    set passengers-waiting total
-    set label passengers-waiting
+  let minutes-from-last-train ticks-from-last-train / ticks-per-minute
+  let new-passengers 0
+  if minutes-from-last-train =  0.0 [
+    set new-passengers calcRand 100 200
+    set p-waiting-num lput new-passengers p-waiting-num
+    set p-waiting-time lput ticks-from-last-train p-waiting-time
   ]
+  if minutes-from-last-train =  5.0 [
+    set new-passengers calcRand 150 300
+    set p-waiting-num but-last p-waiting-num
+    set p-waiting-time but-last p-waiting-time
+    set p-waiting-num lput new-passengers p-waiting-num
+    set p-waiting-time lput ticks-from-last-train p-waiting-time
+  ]
+  if minutes-from-last-train = 10.0 [
+    set new-passengers calcRand  50 300
+    set p-waiting-num but-last p-waiting-num
+    set p-waiting-time but-last p-waiting-time
+    set p-waiting-num lput new-passengers p-waiting-num
+    set p-waiting-time lput ticks-from-last-train p-waiting-time
+  ]
+  if minutes-from-last-train = 15.0 [
+    set new-passengers calcRand 200 400
+    set p-waiting-num but-last p-waiting-num
+    set p-waiting-time but-last p-waiting-time
+    set p-waiting-num lput new-passengers p-waiting-num
+    set p-waiting-time lput ticks-from-last-train p-waiting-time
+  ]
+  let total 0
+  foreach p-waiting-num [ n -> set total total + n ]
+  ; print word "Waiting num: " p-waiting-num
+  ;print word "Waiting time: " p-waiting-time
+  set passengers-waiting total
+  set label passengers-waiting
 end
 
 ; UTILS
@@ -412,7 +410,7 @@ max-capacity
 max-capacity
 0
 500
-277.0
+500.0
 1
 1
 passengers
@@ -438,7 +436,7 @@ train-frequency-exponential
 train-frequency-exponential
 1
 30
-1.0
+5.0
 2
 1
 NIL
