@@ -1,0 +1,4 @@
+CAS 1: capacitat (A) = 350 (-), exp sortides (B) = 4.0 (-) = 196 
+CAS 2: capacitat (A) = 350 (-), exp sortides (B) = 1.0 (+) = 2 
+CAS 3: capacitat (A) = 700 (+), exp sortides (B) = 4.0 (-) = 2 
+CAS 4: capacitat (A) = 700 (+), exp sortides (B) = 1.0 (+) = 1 
