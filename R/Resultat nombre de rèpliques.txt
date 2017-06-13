@@ -1,6 +1,5 @@
-Nombre de rèpliques prova pilot = 75 
 Mitjana prova pilot = 3.674414 
-Desviació prova pilot = 75 
+Desviació prova pilot = 0.7546103 
 
 Semi-amplada de l'interval de confiança de la prova pilot = 0.1736201 
 Interval de confiança (α = 0.05) = [ 3.500794 , 3.848034 ] 
