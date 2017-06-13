@@ -1,3 +1,4 @@
+Nombre de rèpliques prova pilot = 75 
 Mitjana prova pilot = 3.674414 
 Desviació prova pilot = 0.7546103 
 

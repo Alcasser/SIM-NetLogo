@@ -17,7 +17,7 @@ summary(ProvaPilot)
 sink("Resultat nombre de rèpliques.txt")
 # Nombre de rèpliques
 n <- length(ProvaPilot)
-cat("Nombre de rèpliques prova pilot =", , "\n")
+cat("Nombre de rèpliques prova pilot =", n, "\n")
 # Mitjana
 X <- mean(ProvaPilot)
 cat("Mitjana prova pilot =", X, "\n")
