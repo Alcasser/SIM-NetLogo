@@ -15,6 +15,7 @@ globals [
   hour
   minute
   second
+  mean-time-between-stations
 ]
 
 trains-own [ ; TRAIN
@@ -46,6 +47,7 @@ to setup
   set hour 8
   set minute 0
   set second 0
+  set mean-time-between-stations 2.5
   setup-frequency
   draw-track
   draw-stations
@@ -445,21 +447,6 @@ train-frequency-exponential
 15
 5.0
 0.1
-1
-NIL
-HORIZONTAL
-
-SLIDER
-800
-10
-955
-43
-mean-time-between-stations
-mean-time-between-stations
-1
-10
-2.5
-0.5
 1
 NIL
 HORIZONTAL
