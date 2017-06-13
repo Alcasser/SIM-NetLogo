@@ -174,35 +174,39 @@ to passengers-enter-the-train ; applied to a train
   let going-to-station-aux going-to-station
   let num-passengers-aux num-passengers
   ask stations with [ station-num = going-to-station-aux ] [
-    ; REFACTOR: passar a procedure de station
-    let seats-available max-capacity - num-passengers-aux
-    if (seats-available > 0) [
-      let entering 0
-      while [not empty? p-waiting-num and seats-available > 0] [
-        let p-num item 0 p-waiting-num
-        let p-time item 0 p-waiting-time
-        ifelse p-num <= seats-available [
-          set entering entering + p-num
-          set seats-available seats-available - p-num
-          set p-left-num p-left-num + entering
-          set p-left-total-wait-time p-left-total-wait-time + (entering * p-time)
-          set p-waiting-num remove-item 0 p-waiting-num
-          set p-waiting-time remove-item 0 p-waiting-time
-        ] [
-          set entering entering + seats-available
-          set p-num p-num - seats-available
-          set passengers-travelled passengers-travelled + entering
-          set total-minutes-waited total-minutes-waited + (entering * p-time)
-          set p-waiting-num replace-item 0 p-waiting-num p-num
-          set seats-available 0
-        ]
-      ]
-      set num-passengers-aux num-passengers-aux + entering
-    ]
+    let entering passengers-leave-the-station (num-passengers-aux)
+    set num-passengers-aux (num-passengers-aux + entering)
     set ticks-from-last-train 0
     update-passengers-waiting
   ]
   set num-passengers num-passengers-aux
+end
+
+to-report passengers-leave-the-station [ num-passengers-aux ] ; applied to a station
+  let seats-available max-capacity - num-passengers-aux
+  let entering 0
+  if (seats-available > 0) [
+    while [not empty? p-waiting-num and seats-available > 0] [
+      let p-num item 0 p-waiting-num
+      let p-time item 0 p-waiting-time
+      ifelse p-num <= seats-available [
+        set entering entering + p-num
+        set seats-available seats-available - p-num
+        set p-left-num p-left-num + entering
+        set p-left-total-wait-time p-left-total-wait-time + (entering * p-time)
+        set p-waiting-num remove-item 0 p-waiting-num
+        set p-waiting-time remove-item 0 p-waiting-time
+      ] [
+        set entering entering + seats-available
+        set p-num p-num - seats-available
+        set passengers-travelled passengers-travelled + entering
+        set total-minutes-waited total-minutes-waited + (entering * p-time)
+        set p-waiting-num replace-item 0 p-waiting-num p-num
+        set seats-available 0
+      ]
+    ]
+  ]
+  report entering
 end
 
 to passengers-leave-the-train ; applied to a train
@@ -325,8 +329,8 @@ end
 GRAPHICS-WINDOW
 10
 11
-813
-97
+747
+91
 -1
 -1
 17.8
@@ -418,11 +422,11 @@ HORIZONTAL
 MONITOR
 660
 100
-815
-145
+780
+141
 Mean wait time (min)
 mean-waiting-time / ticks-per-minute
-17
+2
 1
 11
 
@@ -505,7 +509,7 @@ true
 false
 "" ""
 PENS
-"passengers" 1.0 0 -2139308 true "" "ask stations with [ station-num = 0 ] [\n  let total 0\n  foreach p-waiting-num [ n -> set total total + n ]\n  plot total\n]"
+"passengers" 1.0 0 -2139308 true "" "if second = 0 and minute mod 15 = 0 [\n  ask stations with [ station-num = 0 ] [\n    let total 0\n    foreach p-waiting-num [ n -> set total total + n ]\n    plot total\n  ]\n]"
 
 PLOT
 10
@@ -523,7 +527,7 @@ true
 false
 "" ""
 PENS
-"default" 1.0 0 -14070903 true "" "ask stations with [ station-num = 0 ] [\n  if p-left-num > 0 [\n    plot (p-left-total-wait-time / p-left-num) / ticks-per-minute\n  ]\n]"
+"default" 1.0 0 -14070903 true "" "if second = 0 and minute mod 15 = 0 [\n  ask stations with [ station-num = 0 ] [\n    if p-left-num > 0 [\n      plot (p-left-total-wait-time / p-left-num) / ticks-per-minute\n    ]\n  ]\n]"
 
 PLOT
 215
@@ -541,7 +545,7 @@ true
 false
 "" ""
 PENS
-"default" 1.0 0 -2674135 true "" "ask stations with [ station-num = 1 ] [\n  let total 0\n  foreach p-waiting-num [ n -> set total total + n ]\n  plot total\n]"
+"default" 1.0 0 -2674135 true "" "if second = 0 and minute mod 15 = 0 [\n  ask stations with [ station-num = 1 ] [\n    let total 0\n    foreach p-waiting-num [ n -> set total total + n ]\n    plot total\n  ]\n]"
 
 PLOT
 420
@@ -559,7 +563,7 @@ true
 false
 "" ""
 PENS
-"default" 1.0 0 -2674135 true "" "ask stations with [ station-num = 2 ] [\n  let total 0\n  foreach p-waiting-num [ n -> set total total + n ]\n  plot total\n]"
+"default" 1.0 0 -2674135 true "" "if second = 0 and minute mod 15 = 0 [\n  ask stations with [ station-num = 2 ] [\n    let total 0\n    foreach p-waiting-num [ n -> set total total + n ]\n    plot total\n  ]\n]"
 
 PLOT
 625
@@ -577,7 +581,7 @@ true
 false
 "" ""
 PENS
-"default" 1.0 0 -2674135 true "" "ask stations with [ station-num = 3 ] [\n  let total 0\n  foreach p-waiting-num [ n -> set total total + n ]\n  plot total\n]"
+"default" 1.0 0 -2674135 true "" "if second = 0 and minute mod 15 = 0 [\n  ask stations with [ station-num = 3 ] [\n    let total 0\n    foreach p-waiting-num [ n -> set total total + n ]\n    plot total\n  ]\n]"
 
 PLOT
 830
@@ -595,7 +599,7 @@ true
 false
 "" ""
 PENS
-"default" 1.0 0 -2674135 true "" "ask stations with [ station-num = 4 ] [\n  let total 0\n  foreach p-waiting-num [ n -> set total total + n ]\n  plot total\n]"
+"default" 1.0 0 -2674135 true "" "if second = 0 and minute mod 15 = 0 [\n  ask stations with [ station-num = 4 ] [\n    let total 0\n    foreach p-waiting-num [ n -> set total total + n ]\n    plot total\n  ]\n]"
 
 PLOT
 215
@@ -608,12 +612,12 @@ NIL
 0.0
 10.0
 0.0
-10.0
+5.0
 true
 false
 "" ""
 PENS
-"default" 1.0 0 -14070903 true "" "ask stations with [ station-num = 1 ] [\n  if p-left-num > 0 [\n    plot (p-left-total-wait-time / p-left-num) / ticks-per-minute\n  ]\n]"
+"default" 1.0 0 -14070903 true "" "if second = 0 and minute mod 15 = 0 [\n  ask stations with [ station-num = 1 ] [\n    if p-left-num > 0 [\n      plot (p-left-total-wait-time / p-left-num) / ticks-per-minute\n    ]\n  ]\n]"
 
 PLOT
 420
@@ -626,12 +630,12 @@ NIL
 0.0
 10.0
 0.0
-10.0
+5.0
 true
 false
 "" ""
 PENS
-"default" 1.0 0 -14070903 true "" "ask stations with [ station-num = 2 ] [\n  if p-left-num > 0 [\n    plot (p-left-total-wait-time / p-left-num) / ticks-per-minute\n  ]\n]"
+"default" 1.0 0 -14070903 true "" "if second = 0 and minute mod 15 = 0 [\n  ask stations with [ station-num = 2 ] [\n    if p-left-num > 0 [\n      plot (p-left-total-wait-time / p-left-num) / ticks-per-minute\n    ]\n  ]\n]"
 
 PLOT
 625
@@ -644,12 +648,12 @@ NIL
 0.0
 10.0
 0.0
-10.0
+5.0
 true
 false
 "" ""
 PENS
-"default" 1.0 0 -14070903 true "" "ask stations with [ station-num = 3 ] [\n  if p-left-num > 0 [\n    plot (p-left-total-wait-time / p-left-num) / ticks-per-minute\n  ]\n]"
+"default" 1.0 0 -14070903 true "" "if second = 0 and minute mod 15 = 0 [\n  ask stations with [ station-num = 3 ] [\n    if p-left-num > 0 [\n      plot (p-left-total-wait-time / p-left-num) / ticks-per-minute\n    ]\n  ]\n]"
 
 PLOT
 830
@@ -662,12 +666,12 @@ NIL
 0.0
 10.0
 0.0
-10.0
+5.0
 true
 false
 "" ""
 PENS
-"default" 1.0 0 -14070903 true "" "ask stations with [ station-num = 4 ] [\n  if p-left-num > 0 [\n    plot (p-left-total-wait-time / p-left-num) / ticks-per-minute\n  ]\n]"
+"default" 1.0 0 -14070903 true "" "if second = 0 and minute mod 15 = 0 [\n  ask stations with [ station-num = 4 ] [\n    if p-left-num > 0 [\n      plot (p-left-total-wait-time / p-left-num) / ticks-per-minute\n    ]\n  ]\n]"
 
 PLOT
 820
@@ -685,7 +689,7 @@ true
 false
 "" ""
 PENS
-"default" 1.0 0 -10141563 true "" "plot mean-waiting-time / ticks-per-minute"
+"default" 1.0 0 -10141563 true "" "if second = 0 and minute mod 15 = 0 [\n  plot mean-waiting-time / ticks-per-minute\n]"
 
 PLOT
 1035
@@ -703,7 +707,7 @@ true
 false
 "" ""
 PENS
-"default" 1.0 0 -12087248 true "" "let maximum 0\nask trains [\n  if num-passengers > maximum [ set maximum num-passengers ]\n]\nplot maximum"
+"default" 1.0 0 -12087248 true "" "if second = 0 and minute mod 15 = 0 [\n  let maximum 0\n  ask trains [\n    if num-passengers > maximum [ set maximum num-passengers ]\n  ]\n  plot maximum\n]"
 
 @#$#@#$#@
 ## WHAT IS IT?
