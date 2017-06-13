@@ -422,7 +422,7 @@ MONITOR
 905
 65
 1020
-116
+118
 Mean wait time
 word (precision (mean-waiting-time / ticks-per-minute) 3) \" min\"
 2
@@ -438,7 +438,7 @@ train-frequency-exponential
 train-frequency-exponential
 1
 15
-4.0
+6.7
 0.1
 1
 NIL
@@ -724,7 +724,7 @@ MONITOR
 790
 65
 892
-116
+118
 Current time
 word (floor hour) \":\" (floor minute) \":\" second
 17
@@ -1196,6 +1196,8 @@ NetLogo 6.0.1
     <metric>mean-waiting-time / ticks-per-minute</metric>
     <enumeratedValueSet variable="max-capacity">
       <value value="400"/>
+      <value value="300"/>
+      <value value="200"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="mean-time-between-stations">
       <value value="1.5"/>
