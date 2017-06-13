@@ -443,7 +443,7 @@ train-frequency-exponential
 train-frequency-exponential
 1
 15
-4.0
+1.0
 0.1
 1
 NIL
@@ -1179,16 +1179,100 @@ NetLogo 6.0.1
 @#$#@#$#@
 @#$#@#$#@
 <experiments>
-  <experiment name="experiment" repetitions="20" runMetricsEveryStep="false">
+  <experiment name="Experiment1 (350, 4.0)" repetitions="67" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
-    <exitCondition>hour = 24 and minute = 0 and second = 0</exitCondition>
+    <exitCondition>hour = 23 and minute = 0 and second = 0</exitCondition>
     <metric>mean-waiting-time / ticks-per-minute</metric>
     <enumeratedValueSet variable="max-capacity">
       <value value="350"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="train-frequency-exponential">
       <value value="4"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="Experiment2 (350, 1.0)" repetitions="67" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <exitCondition>hour = 23 and minute = 0 and second = 0</exitCondition>
+    <metric>mean-waiting-time / ticks-per-minute</metric>
+    <enumeratedValueSet variable="max-capacity">
+      <value value="350"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="train-frequency-exponential">
+      <value value="1"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="Experiment3 (700, 4.0)" repetitions="67" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <exitCondition>hour = 23 and minute = 0 and second = 0</exitCondition>
+    <metric>mean-waiting-time / ticks-per-minute</metric>
+    <enumeratedValueSet variable="max-capacity">
+      <value value="700"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="train-frequency-exponential">
+      <value value="4"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="Experiment4 (700, 1.0)" repetitions="67" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <exitCondition>hour = 23 and minute = 0 and second = 0</exitCondition>
+    <metric>mean-waiting-time / ticks-per-minute</metric>
+    <enumeratedValueSet variable="max-capacity">
+      <value value="700"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="train-frequency-exponential">
+      <value value="1"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="Prova pilot - Experiment1 (350, 4.0)" repetitions="50" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <exitCondition>hour = 23 and minute = 0 and second = 0</exitCondition>
+    <metric>mean-waiting-time / ticks-per-minute</metric>
+    <enumeratedValueSet variable="max-capacity">
+      <value value="350"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="train-frequency-exponential">
+      <value value="4"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="Prova pilot - Experiment2 (350, 1.0)" repetitions="50" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <exitCondition>hour = 23 and minute = 0 and second = 0</exitCondition>
+    <metric>mean-waiting-time / ticks-per-minute</metric>
+    <enumeratedValueSet variable="max-capacity">
+      <value value="350"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="train-frequency-exponential">
+      <value value="1"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="Prova pilot - Experiment3 (700, 4.0)" repetitions="50" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <exitCondition>hour = 23 and minute = 0 and second = 0</exitCondition>
+    <metric>mean-waiting-time / ticks-per-minute</metric>
+    <enumeratedValueSet variable="max-capacity">
+      <value value="700"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="train-frequency-exponential">
+      <value value="4"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="Prova pilot - Experiment4 (700, 1.0)" repetitions="50" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <exitCondition>hour = 23 and minute = 0 and second = 0</exitCondition>
+    <metric>mean-waiting-time / ticks-per-minute</metric>
+    <enumeratedValueSet variable="max-capacity">
+      <value value="700"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="train-frequency-exponential">
+      <value value="1"/>
     </enumeratedValueSet>
   </experiment>
 </experiments>
