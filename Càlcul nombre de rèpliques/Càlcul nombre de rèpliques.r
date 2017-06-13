@@ -24,7 +24,7 @@ exp4 <- exp4$`mean-waiting-time / ticks-per-minute`
 sink("repliquesExp1.txt")
 # Nombre de rèpliques
 n1 <- length(exp1)
-cat("Nombre de rèpliques prova pilot =", n, "\n")
+cat("Nombre de rèpliques prova pilot =", n1, "\n")
 # Mitjana
 X1 <- mean(exp1)
 cat("Mitjana prova pilot =", X1, "\n")
@@ -33,7 +33,7 @@ S1 <- sd(exp1)
 cat("Desviació prova pilot =", S1, "\n\n")
 
 # Semi-amplada de l'interval de confiança de la prova pilot
-h1 <- qt(0.975, n1-1) * S/sqrt(n1)
+h1 <- qt(0.975, n1-1) * S1/sqrt(n1)
 cat("Semi-amplada de l'interval de confiança de la prova pilot =", h1, "\n")
 
 # Interval de confiança del 95%
@@ -53,7 +53,7 @@ sink()
 sink("repliquesExp2.txt")
 # Nombre de rèpliques
 n2 <- length(exp2)
-cat("Nombre de rèpliques prova pilot =", n, "\n")
+cat("Nombre de rèpliques prova pilot =", n2, "\n")
 # Mitjana
 X2 <- mean(exp2)
 cat("Mitjana prova pilot =", X2, "\n")
@@ -62,7 +62,7 @@ S2 <- sd(exp2)
 cat("Desviació prova pilot =", S2, "\n\n")
 
 # Semi-amplada de l'interval de confiança de la prova pilot
-h2 <- qt(0.975, n2-1) * S/sqrt(n2)
+h2 <- qt(0.975, n2-1) * S2/sqrt(n2)
 cat("Semi-amplada de l'interval de confiança de la prova pilot =", h2, "\n")
 
 # Interval de confiança del 95%
@@ -82,7 +82,7 @@ sink()
 sink("repliquesExp3.txt")
 # Nombre de rèpliques
 n3 <- length(exp3)
-cat("Nombre de rèpliques prova pilot =", n, "\n")
+cat("Nombre de rèpliques prova pilot =", n3, "\n")
 # Mitjana
 X3 <- mean(exp3)
 cat("Mitjana prova pilot =", X3, "\n")
@@ -91,7 +91,7 @@ S3 <- sd(exp3)
 cat("Desviació prova pilot =", S3, "\n\n")
 
 # Semi-amplada de l'interval de confiança de la prova pilot
-h3 <- qt(0.975, n3-1) * S/sqrt(n3)
+h3 <- qt(0.975, n3-1) * S3/sqrt(n3)
 cat("Semi-amplada de l'interval de confiança de la prova pilot =", h3, "\n")
 
 # Interval de confiança del 95%
@@ -111,7 +111,7 @@ sink()
 sink("repliquesExp4.txt")
 # Nombre de rèpliques
 n4 <- length(exp4)
-cat("Nombre de rèpliques prova pilot =", n, "\n")
+cat("Nombre de rèpliques prova pilot =", n4, "\n")
 # Mitjana
 X4 <- mean(exp4)
 cat("Mitjana prova pilot =", X4, "\n")
@@ -120,7 +120,7 @@ S4 <- sd(exp4)
 cat("Desviació prova pilot =", S4, "\n\n")
 
 # Semi-amplada de l'interval de confiança de la prova pilot
-h4 <- qt(0.975, n4-1) * S/sqrt(n4)
+h4 <- qt(0.975, n4-1) * S4/sqrt(n4)
 cat("Semi-amplada de l'interval de confiança de la prova pilot =", h4, "\n")
 
 # Interval de confiança del 95%

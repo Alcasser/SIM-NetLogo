@@ -417,7 +417,7 @@ max-capacity
 max-capacity
 0
 1000
-350.0
+700.0
 1
 1
 passengers
@@ -1179,7 +1179,7 @@ NetLogo 6.0.1
 @#$#@#$#@
 @#$#@#$#@
 <experiments>
-  <experiment name="Experiment1 (350, 4.0)" repetitions="67" runMetricsEveryStep="false">
+  <experiment name="Experiment1 (350, 4.0)" repetitions="196" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <exitCondition>hour = 23 and minute = 0 and second = 0</exitCondition>
@@ -1191,7 +1191,7 @@ NetLogo 6.0.1
       <value value="4"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="Experiment2 (350, 1.0)" repetitions="67" runMetricsEveryStep="false">
+  <experiment name="Experiment2 (350, 1.0)" repetitions="2" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <exitCondition>hour = 23 and minute = 0 and second = 0</exitCondition>
@@ -1203,7 +1203,7 @@ NetLogo 6.0.1
       <value value="1"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="Experiment3 (700, 4.0)" repetitions="67" runMetricsEveryStep="false">
+  <experiment name="Experiment3 (700, 4.0)" repetitions="2" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <exitCondition>hour = 23 and minute = 0 and second = 0</exitCondition>
@@ -1215,7 +1215,7 @@ NetLogo 6.0.1
       <value value="4"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="Experiment4 (700, 1.0)" repetitions="67" runMetricsEveryStep="false">
+  <experiment name="Experiment4 (700, 1.0)" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <exitCondition>hour = 23 and minute = 0 and second = 0</exitCondition>
