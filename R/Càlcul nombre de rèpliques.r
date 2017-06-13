@@ -17,13 +17,13 @@ summary(ProvaPilot)
 sink("Resultat nombre de rèpliques.txt")
 # Nombre de rèpliques
 n <- length(ProvaPilot)
-cat("Nombre de rèpliques prova pilot =", n, "\n")
+cat("Nombre de rèpliques prova pilot =", , "\n")
 # Mitjana
 X <- mean(ProvaPilot)
 cat("Mitjana prova pilot =", X, "\n")
 # Desviació
 S <- sd(ProvaPilot)
-cat("Desviació prova pilot =", n, "\n\n")
+cat("Desviació prova pilot =", S, "\n\n")
 
 # Semi-amplada de l'interval de confiança de la prova pilot
 h <- qt(0.975, n-1) * S/sqrt(n)
