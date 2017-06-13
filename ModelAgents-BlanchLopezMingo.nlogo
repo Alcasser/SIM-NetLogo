@@ -443,7 +443,7 @@ train-frequency-exponential
 train-frequency-exponential
 1
 15
-6.7
+5.0
 0.1
 1
 NIL
@@ -458,7 +458,7 @@ mean-time-between-stations
 mean-time-between-stations
 1
 10
-1.5
+2.5
 0.5
 1
 NIL
