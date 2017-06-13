@@ -314,11 +314,16 @@ end
 
 to-report crashing [ gts dt ]
   let result false
+  let dt-actual-train station-length * (gts - 1) + dt
   ask trains [
-    if going-to-station = gts and dt >= distance-travelled - 2.5 and dt < distance-travelled [
-      set result true
-    ]
-    if dt >= station-length - 2.5 and going-to-station = gts + 1 and distance-travelled <= 2 [
+;    if going-to-station = gts and dt >= distance-travelled - 2.5 and dt < distance-travelled [
+;      set result true
+;    ]
+;    if dt >= station-length - 2.5 and going-to-station = gts + 1 and distance-travelled <= 2 [
+;      set result true
+;    ]
+    let dt-train station-length * (going-to-station - 1) + distance-travelled
+    if dt-actual-train >= dt-train - 2.2 and dt-actual-train < dt-train [
       set result true
     ]
   ]
