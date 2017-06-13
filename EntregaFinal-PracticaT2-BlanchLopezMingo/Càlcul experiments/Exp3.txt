@@ -1,7 +1,0 @@
-Nombre de rèpliques = 2 
-
-
-CAS 3: capacitat (A) = 700 (+), exp sortides (B) = 4.0 (-)
-Mitjana = 2.397441 
-Desviació = 0.09390713 
-Interval de confiança (α = 0.05) = [ 2.397441 , 2.397441 ] 
